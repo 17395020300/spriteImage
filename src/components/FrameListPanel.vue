@@ -4,7 +4,6 @@ import {
   NListItem,
   NThing,
   NButton,
-  NSpace,
   NText,
   NEmpty,
   NInput,
