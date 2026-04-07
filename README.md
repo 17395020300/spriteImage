@@ -8,6 +8,8 @@
 
 基于浏览器的 **CSS 雪碧图（Sprite）** 生成工具：上传多张图片，自动装箱排版，预览合成图，并生成可直接使用的 CSS。
 
+**在线使用：** [https://rupiong.github.io/nanaSprite/](https://rupiong.github.io/nanaSprite/)
+
 ## 功能概览
 
 - **多图上传**：支持拖拽或选择文件；同名文件会自动加序号避免冲突。
