@@ -3,6 +3,7 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches: [main]
+  workflow_dispatch: # 可在 Actions 里手动 Run workflow，便于切换 Pages 源后重试部署
 
 permissions:
   contents: read
