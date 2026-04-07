@@ -5,6 +5,7 @@ on:
     branches: [main]
   workflow_dispatch: # 可在 Actions 里手动 Run workflow，便于切换 Pages 源后重试部署
 
+# 若上传/部署失败：仓库 Settings → Actions → General → Workflow permissions 选「Read and write permissions」
 permissions:
   contents: read
   pages: write
@@ -46,10 +47,15 @@ jobs:
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist
-          name: pages-dist-${{ github.run_id }}-${{ github.run_attempt }}
 
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4
-        with:
-          artifact_name: pages-dist-${{ github.run_id }}-${{ github.run_attempt }}
+        uses: actions/deploy-pages@v5
+
+      - name: Debug dist on failure
+        if: failure()
+        run: |
+          echo "--- dist/index.html ---"
+          cat dist/index.html 2>/dev/null || true
+          echo "--- dist ---"
+          ls -la dist 2>/dev/null || true
