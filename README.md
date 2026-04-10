@@ -10,7 +10,14 @@
 
 **在线使用：** [https://rupiong.github.io/nanaSprite/](https://rupiong.github.io/nanaSprite/)
 
+
 ## 功能概览
+
+<p align="center">
+  <img src="demo.png" alt="nanaSprite 界面预览" width="800" />
+</p>
+
+**推荐：** 在 Vite 项目中按配置展示雪碧图帧时，可配合 [vite-nanaSprite](https://github.com/Rupiong/vite-nanaSprite)（Vite 插件 + Vue 3 / React 组件）使用。
 
 - **多图上传**：支持拖拽或选择文件；同名文件会自动加序号避免冲突。
 - **多种排版**：Binary Tree（紧凑装箱）、Diagonal / Diagonal Alt（对角阶梯）、单行横向、单列纵向；可设置帧间距（gap）。

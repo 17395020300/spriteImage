@@ -17,11 +17,14 @@ import { styleOutputOptions } from '@/enums/StyleOutputKind'
 import { ClassNamePattern, classNamePatternOptions } from '@/enums/ClassNamePattern'
 import { useCopyText } from '@/hooks/useCopyText'
 import { cssToJsonString } from '@/utils/cssToJsonString'
+import { buildViteNanaSpriteConfigString } from '@/utils/viteNanaSpriteConfigString'
 import { computed } from 'vue'
 
 const store = useSpriteStore()
 const {
   fullCss,
+  frames,
+  placementById,
   spriteUrlInCss,
   styleOutputKind,
   classNamePattern,
@@ -73,6 +76,21 @@ async function copyCssAsJson() {
     message.error('CSS 解析失败')
   }
 }
+
+async function copyViteNanaSpriteConfig() {
+  if (frames.value.length === 0) {
+    message.warning('请先添加图片帧')
+    return
+  }
+  const text = buildViteNanaSpriteConfigString(
+    frames.value.map((f) => ({ id: f.id, name: f.name })),
+    placementById.value,
+    spriteUrlInCss.value,
+  )
+  const ok = await copyText(text)
+  if (ok) message.success('已复制 vite-nanaSprite 配置')
+  else message.error('复制失败')
+}
 </script>
 
 <template>
@@ -105,6 +123,9 @@ async function copyCssAsJson() {
       </NButton>
       <NButton secondary @click="copyCssAsJson">
         一键复制 CSS JSON
+      </NButton>
+      <NButton secondary @click="copyViteNanaSpriteConfig">
+        一键复制 vite-nanaSprite 配置
       </NButton>
     </NSpace>
     <div
