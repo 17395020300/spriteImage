@@ -10,10 +10,12 @@ function loadImage(src: string): Promise<HTMLImageElement> {
   })
 }
 
+
 export async function renderSpriteDataUrl(
   items: { objectUrl: string; placement: FramePlacement }[],
   spriteWidth: number,
   spriteHeight: number,
+  format: 'image/png' | 'image/webp' = 'image/png',
 ): Promise<string> {
   if (items.length === 0 || spriteWidth <= 0 || spriteHeight <= 0) {
     return ''
@@ -28,15 +30,16 @@ export async function renderSpriteDataUrl(
     const img = await loadImage(objectUrl)
     ctx.drawImage(img, p.x, p.y, p.w, p.h)
   }
-  return canvas.toDataURL('image/png')
+  return canvas.toDataURL(format)
 }
 
 export async function renderSpriteBlob(
   items: { objectUrl: string; placement: FramePlacement }[],
   spriteWidth: number,
   spriteHeight: number,
+  format: 'image/png' | 'image/webp' = 'image/png',
 ): Promise<Blob | null> {
-  const dataUrl = await renderSpriteDataUrl(items, spriteWidth, spriteHeight)
+  const dataUrl = await renderSpriteDataUrl(items, spriteWidth, spriteHeight, format)
   if (!dataUrl) return null
   const res = await fetch(dataUrl)
   return res.blob()

@@ -58,6 +58,9 @@ export const useSpriteStore = defineStore('sprite', () => {
   const cssUnit = ref<'px' | 'rem'>('px')
   const remBase = ref(16)
 
+  // 新增：雪碧图导出格式
+  const spriteFormat = ref<'image/png' | 'image/webp'>('image/png')
+
   const spriteDataUrl = ref('')
   let renderToken = 0
   /** 串行化 addFiles，避免 NUpload 多文件并行触发 onBeforeUpload 时互相覆盖 frames */
@@ -115,7 +118,7 @@ export const useSpriteStore = defineStore('sprite', () => {
       return { objectUrl: f.objectUrl, placement: p }
     })
     try {
-      const url = await renderSpriteDataUrl(items, pr.spriteWidth, pr.spriteHeight)
+      const url = await renderSpriteDataUrl(items, pr.spriteWidth, pr.spriteHeight, spriteFormat.value)
       if (token === renderToken) spriteDataUrl.value = url
     } catch {
       if (token === renderToken) spriteDataUrl.value = ''
@@ -185,13 +188,16 @@ export const useSpriteStore = defineStore('sprite', () => {
     spriteDataUrl.value = ''
   }
 
-  async function downloadPng(filename = 'css_sprites.png') {
+  async function downloadSprite(filename?: string) {
     await refreshSpriteImage()
     const url = spriteDataUrl.value
     if (!url) return
+    // 自动根据格式和默认名
+    let ext = spriteFormat.value === 'image/webp' ? '.webp' : '.png'
+    let name = filename || `css_sprites${ext}`
     const a = document.createElement('a')
     a.href = url
-    a.download = filename
+    a.download = name
     a.click()
   }
 
@@ -214,7 +220,8 @@ export const useSpriteStore = defineStore('sprite', () => {
     finalizeFrameName,
     removeFrame,
     clearAll,
-    downloadPng,
+    spriteFormat,
+    downloadSprite,
     refreshSpriteImage,
   }
 })

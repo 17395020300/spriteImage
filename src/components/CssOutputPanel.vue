@@ -31,6 +31,7 @@ const {
   customClassPrefix,
   cssUnit,
   remBase,
+  spriteFormat,
 } = storeToRefs(store)
 
 const message = useMessage()
@@ -98,7 +99,18 @@ async function copyViteNanaSpriteConfig() {
     <NForm label-placement="top" class="mb-3">
       <div class="grid grid-cols-1 md:grid-cols-2 gap-x-4">
         <NFormItem label="样式图中 URL / 文件名">
-          <NInput v-model:value="spriteUrlInCss" placeholder="css_sprites.png" />
+          <NSpace>
+            <NInput v-model:value="spriteUrlInCss" placeholder="css_sprites.png" style="width: 200px" />
+            <NSelect
+              v-model:value="spriteFormat"
+              :options="[
+                { label: 'PNG', value: 'image/png' },
+                { label: 'WebP', value: 'image/webp' }
+              ]"
+              size="small"
+              style="width: 100px"
+            />
+          </NSpace>
         </NFormItem>
         <NFormItem label="样式类型">
           <NSelect v-model:value="styleOutputKind" :options="styleOptions" />

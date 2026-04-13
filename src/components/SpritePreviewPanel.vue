@@ -4,8 +4,9 @@ import { storeToRefs } from 'pinia'
 import { useSpriteStore } from '@/store/sprite'
 import { computed } from 'vue'
 
+
 const store = useSpriteStore()
-const { spriteDataUrl, packResult } = storeToRefs(store)
+const { spriteDataUrl, packResult, spriteFormat } = storeToRefs(store)
 
 const sizeText = computed(() => {
   const pr = packResult.value
@@ -17,9 +18,20 @@ const sizeText = computed(() => {
 <template>
   <NCard title="雪碧图预览" class="rounded-xl shadow-sm">
     <template #header-extra>
-      <NButton type="primary" secondary size="small" :disabled="!spriteDataUrl" @click="store.downloadPng()">
-        下载雪碧图 PNG
-      </NButton>
+      <NSpace>
+        <NSelect
+          v-model:value="spriteFormat"
+          :options="[
+            { label: 'PNG', value: 'image/png' },
+            { label: 'WebP', value: 'image/webp' }
+          ]"
+          size="small"
+          style="width: 100px"
+        />
+        <NButton type="primary" secondary size="small" :disabled="!spriteDataUrl" @click="store.downloadSprite()">
+          下载雪碧图
+        </NButton>
+      </NSpace>
     </template>
     <div
       class="sprite-preview-canvas h-fit flex items-center justify-center rounded-lg overflow-auto w-fit"
