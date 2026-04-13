@@ -13,7 +13,7 @@ function productionBase(): string {
   if (process.env.NETLIFY) return '/'
   // GitHub Actions Pages 部署
   if (process.env.GITHUB_PAGES) {
-    return `/${pkg.name}/`
+    return `/${pkg.name}/` // 自动适配仓库名 spriteImage
   }
   const fromEnv = process.env.VITE_BASE_PATH?.trim()
   if (fromEnv) return fromEnv.endsWith('/') ? fromEnv : `${fromEnv}/`
