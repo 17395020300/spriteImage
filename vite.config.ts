@@ -11,6 +11,10 @@ const pkg = JSON.parse(
 function productionBase(): string {
   // Netlify 环境变量自动注入
   if (process.env.NETLIFY) return '/'
+  // GitHub Actions Pages 部署
+  if (process.env.GITHUB_PAGES) {
+    return `/${pkg.name}/`
+  }
   const fromEnv = process.env.VITE_BASE_PATH?.trim()
   if (fromEnv) return fromEnv.endsWith('/') ? fromEnv : `${fromEnv}/`
   const repo = process.env.GITHUB_REPOSITORY?.split('/')[1]
