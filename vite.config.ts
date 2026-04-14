@@ -17,6 +17,7 @@ function productionBase(): string {
   }
   const fromEnv = process.env.VITE_BASE_PATH?.trim()
   if (fromEnv) return fromEnv.endsWith('/') ? fromEnv : `${fromEnv}/`
+  if (process.env.NETLIFY) return '/'
   const repo = process.env.GITHUB_REPOSITORY?.split('/')[1]
   if (repo) return `/${repo}/`
   return `/${pkg.name}/`
